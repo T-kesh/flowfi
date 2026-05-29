@@ -443,13 +443,6 @@ export const getUserStreamSummary = async (req: Request<{ address: string }>, re
       claimableInTotal += BigInt(claimable.claimableAmount);
     }
 
-    let claimableOutTotal = 0n;
-    for (const stream of outgoingStreams) {
-      // Outgoing streams also need to account for what the recipient can currently claim
-      const claimable = claimableAmountService.getClaimableAmount(stream as any, calculatedAt);
-      claimableOutTotal += BigInt(claimable.claimableAmount);
-    }
-
     const totalStreamsCreated = outgoingStreams.length;
     const totalStreamedOut = sumStringI128(outgoingStreams.map((stream: any) => stream.withdrawnAmount));
     const totalStreamedIn = sumStringI128(incomingStreams.map((stream: any) => stream.withdrawnAmount));
