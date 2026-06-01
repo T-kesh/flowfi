@@ -58,12 +58,16 @@ vi.mock('../../src/services/sorobanService.js', () => ({
   cancelStream: vi.fn(),
 }));
 
-vi.mock('../../src/middleware/auth.middleware.js', () => ({
-  authMiddleware: vi.fn((req: any, _res: any, next: any) => {
-    req.user = { publicKey: req.headers['x-test-caller'] ?? SENDER };
-    next();
-  }),
-}));
+vi.mock('../../src/middleware/auth.js', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../../src/middleware/auth.js')>();
+  return {
+    ...actual,
+    requireAuth: vi.fn((req: any, _res: any, next: any) => {
+      req.user = { publicKey: req.headers['x-test-caller'] ?? SENDER };
+      next();
+    }),
+  };
+});
 
 // App import after mocks
 import app from '../../src/app.js';

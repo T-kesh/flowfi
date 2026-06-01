@@ -32,12 +32,16 @@ vi.mock('../../../src/services/sorobanService.js', () => ({
   isStale: vi.fn().mockReturnValue(false),
 }));
 
-vi.mock('../../../src/middleware/auth.middleware.js', () => ({
-  authMiddleware: (req: any, _res: any, next: any) => {
-    req.user = { publicKey: currentUser.publicKey };
-    next();
-  },
-}));
+vi.mock('../../../src/middleware/auth.js', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../../../src/middleware/auth.js')>();
+  return {
+    ...actual,
+    requireAuth: (req: any, _res: any, next: any) => {
+      req.user = { publicKey: currentUser.publicKey };
+      next();
+    },
+  };
+});
 
 import app from '../../../src/app.js';
 

@@ -38,12 +38,16 @@ vi.mock('../../../src/lib/prisma.js', () => {
 });
 
 // Mock auth middleware to bypass real Stellar signature verification
-vi.mock('../../../src/middleware/auth.middleware.js', () => ({
-  authMiddleware: (req: any, res: any, next: any) => {
-    req.user = { publicKey: 'G_SENDER_123' };
-    next();
-  },
-}));
+vi.mock('../../../src/middleware/auth.js', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../../../src/middleware/auth.js')>();
+  return {
+    ...actual,
+    requireAuth: (req: any, _res: any, next: any) => {
+      req.user = { publicKey: 'G_SENDER_123' };
+      next();
+    },
+  };
+});
 
 // ─── App import (after mocks) ───────────────────────────────────────────────
 
