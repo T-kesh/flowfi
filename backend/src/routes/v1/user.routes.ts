@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { registerUser, getUser, getUserEvents, getCurrentUser } from '../../controllers/user.controller.js';
 import { getUserStreamSummary } from '../../controllers/stream.controller.js';
-import { authMiddleware } from '../../middleware/auth.middleware.js';
+import { requireAuth } from '../../middleware/auth.js';
 
 const router = Router();
 
@@ -84,7 +84,7 @@ const router = Router();
  *         description: Unauthorized - invalid or missing token
  */
 router.post('/', registerUser);
-router.get('/me', authMiddleware, getCurrentUser);
+router.get('/me', requireAuth, getCurrentUser);
 /**
  * @openapi
  * /v1/users/{address}/summary:

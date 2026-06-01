@@ -62,7 +62,7 @@ docker compose up --build
 
 This starts:
 
-- **Postgres** database on port `5432`
+- **Postgres** database on port `5433`
 - **Backend** API on port `3001`
 
 To run in detached mode:

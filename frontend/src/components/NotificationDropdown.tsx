@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import { useStreamEvents } from '@/hooks/useStreamEvents';
 import { formatAmount } from '@/utils/amount';
 import { Button } from './ui/Button';
@@ -18,6 +19,7 @@ interface NotificationItem {
 }
 
 export const NotificationDropdown: React.FC<NotificationDropdownProps> = ({ publicKey }) => {
+    const router = useRouter();
     const [isOpen, setIsOpen] = useState(false);
     const [notifications, setNotifications] = useState<NotificationItem[]>([]);
     const [unreadCount, setUnreadCount] = useState(0);
@@ -165,7 +167,8 @@ export const NotificationDropdown: React.FC<NotificationDropdownProps> = ({ publ
                             size="sm"
                             className="w-full text-xs"
                             onClick={() => {
-                                window.location.href = '/activity';
+                                setIsOpen(false);
+                                router.push('/activity');
                             }}
                         >
                             View All Activity
