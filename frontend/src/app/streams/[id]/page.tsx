@@ -147,12 +147,17 @@ export default function StreamDetailsPage() {
 
   // Handle SSE events
   useEffect(() => {
-    if (streamEvents.length > 0) {
-      const controller = new AbortController();
-      fetchStream(controller.signal);
-      fetchEvents(eventsPage, controller.signal);
-      return () => controller.abort();
-    }
+    const controller = new AbortController();
+
+    const refreshStreamData = async () => {
+      if (streamEvents.length > 0) {
+        await Promise.all([fetchStream(controller.signal), fetchEvents(eventsPage, controller.signal)]);
+      }
+    };
+
+    refreshStreamData();
+
+    return () => controller.abort();
   }, [streamEvents, fetchStream, fetchEvents, eventsPage]);
 
   // Live claimable counter

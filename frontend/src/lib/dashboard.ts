@@ -44,7 +44,6 @@ export interface DashboardAnalyticsMetric {
   unavailableText: string;
 }
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/v1";
 
 function shortenAddress(address: string): string {
   if (!address || address.length < 10) return address;
@@ -120,7 +119,7 @@ export function mapBackendStreamToFrontend(s: BackendStream, counterparty: strin
     status: mapStreamStatus(s),
     deposited,
     withdrawn,
-    date: new Date(s.startTime * 1000).toISOString().split("T")[0],
+    date: new Date(s.startTime * 1000).toISOString().split("T")[0] ?? "",
     ratePerSecond,
     lastUpdateTime: s.lastUpdateTime,
     isActive: s.isActive,
