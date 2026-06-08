@@ -54,7 +54,8 @@ function decodeAddress(val: xdr.ScVal): string {
     return StrKey.encodeEd25519PublicKey(addr.accountId().ed25519());
   }
   const hash = addr.contractId();
-  return StrKey.encodeContract(Buffer.from(hash));
+  // Convert Hash (Opaque[]) to Buffer before passing to encodeContract
+  return StrKey.encodeContract(Buffer.from(hash as unknown as Uint8Array));
 }
 
 function decodeMap(val: xdr.ScVal): Record<string, xdr.ScVal> {
