@@ -1,4 +1,4 @@
-import { rpc, xdr, StrKey, Contract, nativeToScVal, Keypair, TransactionBuilder, Networks } from '@stellar/stellar-sdk';
+import { rpc, xdr, StrKey, Contract, nativeToScVal, Keypair, TransactionBuilder, Networks, Account } from '@stellar/stellar-sdk';
 import logger from '../logger.js';
 
 const RPC_URL = process.env.SOROBAN_RPC_URL ?? 'https://soroban-testnet.stellar.org';
